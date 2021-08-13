@@ -1,0 +1,39 @@
+{% for interface in interfaces %}
+interface {{ interface['name'] }}
+ no shutdown
+ arp timeout 1200
+ {% if interface['name'] == 'GigabitEthernet2' -%}
+ vrf forwarding Mgmt-intf
+ {% endif -%}
+ ip address {{ interface['ip_address'] }} {{ interface['netmask'] }}
+ {% if interface['name'] == 'GigabitEthernet1' -%}
+ load-interval 30
+ ip mtu 1500
+ mtu 1500
+ {% endif -%}
+ {% if interface['name'] == 'GigabitEthernet2' -%}
+ load-interval 30
+ ip mtu 1500
+ mtu 1500
+ {% endif -%}
+ no ip redirects
+ {% if interface['name'] != 'GigabitEthernet2' -%}
+ no ip unreachables
+ {% endif -%}
+ no mop enabled
+ no mop sysid
+ negotiation auto
+ {% if interface['name'] == 'GigabitEthernet1' -%}
+ service-policy output PMAP-SHAPE-WAN-G1
+ {% endif -%}
+exit
+{% endfor %}
+
+{% for interface in interfaces -%}
+{% if interface['name'] == 'GigabitEthernet2' -%}
+ip route vrf Mgmt-intf 0.0.0.0 0.0.0.0 {{ interface['gateway'] }}
+{% else -%}
+ip route 0.0.0.0 0.0.0.0 {{ interface['gateway'] }}
+{% endif -%}
+{% endfor %}
+

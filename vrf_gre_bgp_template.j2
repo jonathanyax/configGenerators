@@ -1,0 +1,113 @@
+vrf definition {{ VRF1 }}
+ description VRF{{ VRF1 }}
+ rd 1:{{ VRF1 }}
+ !
+ address-family ipv4
+  route-target export 1:{{ VRF1 }}
+  route-target import 1:{{ VRF1 }}
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+
+vrf definition {{ VRF2 }}
+ description VRF{{ VRF2 }}
+ rd 1:{{ VRF2 }}
+ !
+ address-family ipv4
+  route-target export 1:{{ VRF2 }}
+  route-target import 1:{{ VRF2 }}
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+
+interface Tunnel100000{{ VRF1 }}01
+ description *** GRE Tunnel 01 for VRF{{ VRF1 }} - RAGW A ***
+ no shutdown
+ bfd interval 50 min_rx 50 multiplier 5
+ vrf forwarding {{ VRF1 }}
+ ip address {{TUNNEL_IP1}} 255.255.255.254
+ ip tcp adjust-mss 1400
+ ip mtu 1476
+ tunnel source GigabitEthernet4
+ tunnel destination {{ Lo_RAGWA }}
+exit
+
+interface Tunnel100000{{ VRF1 }}02
+ description *** GRE Tunnel 02 for VRF{{ VRF1 }} - RAGW B ***
+ no shutdown
+ bfd interval 50 min_rx 50 multiplier 5
+ vrf forwarding {{ VRF1 }}
+ ip address {{TUNNEL_IP2}} 255.255.255.254
+ ip tcp adjust-mss 1400
+ ip mtu 1476
+ tunnel source GigabitEthernet4
+ tunnel destination {{ Lo_RAGWB }}
+exit
+
+interface Tunnel10000{{ VRF2 }}01
+ description *** GRE Tunnel 01 for VRF{{ VRF2 }} - RAGW A ***
+ no shutdown
+ bfd interval 50 min_rx 50 multiplier 5
+ vrf forwarding {{ VRF2 }}
+ ip address {{TUNNEL_IP3}} 255.255.255.254
+ ip tcp adjust-mss 1400
+ ip mtu 1476
+ tunnel source GigabitEthernet4
+ tunnel destination {{ Lo_RAGWA }}
+exit
+
+interface Tunnel10000{{ VRF2 }}02
+ description *** GRE Tunnel 02 for VRF{{ VRF2 }} - RAGW B ***
+ no shutdown
+ bfd interval 50 min_rx 50 multiplier 5
+ vrf forwarding {{ VRF2 }}
+ ip address {{TUNNEL_IP4}} 255.255.255.254
+ ip tcp adjust-mss 1400
+ ip mtu 1476
+ tunnel source GigabitEthernet4
+ tunnel destination {{ Lo_RAGWB }}
+exit
+
+sdwan
+ omp
+  address-family ipv4 vrf {{ VRF1 }}
+   advertise bgp
+  !
+  address-family ipv4 vrf {{ VRF2 }}
+   advertise bgp
+  !
+
+router bgp {{ BGP_ASN }}
+ bgp router-id {{ SYSTEM_IP }}
+ bgp log-neighbor-changes
+ maximum-paths eibgp 4
+ address-family ipv4 unicast vrf {{ VRF1 }}
+  maximum-paths 4
+  neighbor {{ BGP_NEIGH_1 }} remote-as {{ BGP_ASN }}
+  neighbor {{ BGP_NEIGH_1 }} activate
+  neighbor {{ BGP_NEIGH_1 }} fall-over bfd
+  neighbor {{ BGP_NEIGH_1 }} soft-reconfiguration inbound
+  neighbor {{ BGP_NEIGH_2 }} remote-as {{ BGP_ASN }}
+  neighbor {{ BGP_NEIGH_2 }} activate
+  neighbor {{ BGP_NEIGH_2 }} fall-over bfd
+  neighbor {{ BGP_NEIGH_2 }} soft-reconfiguration inbound
+  redistribute omp
+  exit-address-family
+ address-family ipv4 unicast vrf {{ VRF2 }}
+  maximum-paths 4
+  neighbor {{ BGP_NEIGH_3 }} remote-as {{ BGP_ASN }}
+  neighbor {{ BGP_NEIGH_3 }} activate
+  neighbor {{ BGP_NEIGH_3 }} fall-over bfd
+  neighbor {{ BGP_NEIGH_3 }} soft-reconfiguration inbound
+  neighbor {{ BGP_NEIGH_4 }} remote-as {{ BGP_ASN }}
+  neighbor {{ BGP_NEIGH_4 }} activate
+  neighbor {{ BGP_NEIGH_4 }} fall-over bfd
+  neighbor {{ BGP_NEIGH_4 }} soft-reconfiguration inbound
+  redistribute omp
+  exit-address-family
+ !
+!

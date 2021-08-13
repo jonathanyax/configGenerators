@@ -1,0 +1,73 @@
+admin@nso> show devices device esc-ha-de-mag-b_red live-status esc_datamodel opdata tenants tenant p1red-global-services deployments cxr_c8kv-CatalystCXR-de_mag_b_red-0-deployment
+deployments cxr_c8kv-CatalystCXR-de_mag_b_red-0-deployment
+ deployment_id SystemAdminTenantIdcxr_c8kv-CatalystCXR-de_mag_b_red-0-deployment
+ vm_group NGENA-CSR1KV-CXR-5-NIC-ID-CSR1KV-CXR-5-NIC
+  flavor nomadic-sm___cat_4096_0_2
+  image  shared__c8kv-17.05.01a_test
+  vm_instance ac06544d-fac3-4bd0-938b-b86eabc3183e
+   name           demagbCatalystCXR-C8KV-0
+   generated_name cxr_c8kv-Catalys_NGENA-_0_dba17b9e-3f32-4ae4-834b-984a7d38761e
+   host_id        0c6d9316f722be04dd0d97e4f9618592b1754bd49bf79a9823f40655
+   hostname       cmpt8.ngena12.dk.metacloud.in
+   interfaces interface 0
+    type                  virtual
+    vim_interface_name    cxr_c8kv-Catalys_NGENA-_0_dba17b9e-3f32-4ae4-834b-984a7d38761e
+    port_id               72c5aed9-2ef5-41c0-a063-df9571af4a8b
+    network               a7a03645-95ba-4661-aaca-52626727a881
+    subnet                ada39aef-7e60-4eda-9e6c-9fd2b3ec45c6
+    ip_address            63.142.1.135
+    mac_address           fa:16:3e:a9:c8:cd
+    port_security_enabled false
+    netmask               255.255.255.128
+    gateway               63.142.1.129
+   interfaces interface 1
+    type                  virtual
+    vim_interface_name    cxr_c8kv-Catalys_NGENA-_0_dba17b9e-3f32-4ae4-834b-984a7d38761e
+    port_id               6749b652-7a77-4f79-9a42-7e7cc9fe55a8
+    network               4c12a1d0-72ad-4186-a901-a278ffee8708
+    subnet                8aae1a4b-9d49-4fa0-bc5c-9cb7747caa3c
+    ip_address            172.30.24.50
+    mac_address           fa:16:3e:c8:08:dd
+    port_security_enabled false
+    netmask               255.255.252.0
+    gateway               172.30.24.1
+   interfaces interface 2
+    type                  virtual
+    vim_interface_name    cxr_c8kv-Catalys_NGENA-_0_dba17b9e-3f32-4ae4-834b-984a7d38761e
+    port_id               42fc7d16-439f-4cc1-8dbf-713e15d540d3
+    network               c437ac31-1735-4d51-9356-4d2389eff704
+    subnet                e12d5097-5f89-4a91-abc3-3aea5895f6d2
+    ip_address            172.31.14.171
+    mac_address           fa:16:3e:5f:b6:ed
+    port_security_enabled false
+    netmask               255.255.255.128
+    gateway               172.31.14.129
+   interfaces interface 3
+    type                  virtual
+    vim_interface_name    cxr_c8kv-Catalys_NGENA-_0_dba17b9e-3f32-4ae4-834b-984a7d38761e
+    port_id               cfe0cc17-bebf-4614-820e-1f52e43a7b56
+    network               b42f7ae0-db19-47b3-99a3-a1e861fbc20e
+    subnet                ab865f35-fb07-4519-843b-d80caf2f9fa8
+    ip_address            10.253.19.7
+    mac_address           fa:16:3e:76:71:3d
+    port_security_enabled false
+    netmask               255.255.255.0
+    gateway               10.253.19.1
+   interfaces interface 4
+    type                  virtual
+    vim_interface_name    cxr_c8kv-Catalys_NGENA-_0_dba17b9e-3f32-4ae4-834b-984a7d38761e
+    port_id               dde8fe2f-49f3-43da-baab-1ed908b94475
+    network               70ea5877-04e9-46c9-a7a7-10784d9b4b86
+    subnet                2b50061f-40f3-4ae1-98a8-0c6edfdd6a05
+    ip_address            10.253.18.11
+    mac_address           fa:16:3e:96:38:1a
+    port_security_enabled false
+    netmask               255.255.255.0
+    gateway               10.253.18.1
+ state_machine state SERVICE_ACTIVE_STATE
+VM NAME                                                         STATE           
+--------------------------------------------------------------------------------
+cxr_c8kv-Catalys_NGENA-_0_dba17b9e-3f32-4ae4-834b-984a7d38761e  VM_ALIVE_STATE 
+
+
+
